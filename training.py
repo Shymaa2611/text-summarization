@@ -1,40 +1,32 @@
-import os
-from torch.utils.data import Dataset
-from transformers import GPT2LMHeadModel
-import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader
-from transformers import GPT2Tokenizer
-from dataset import TextSummaryDataset
-def train():
-    print("Start")
-    tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-    texts_dir = 'data/text'
-    summaries_dir = 'data/summary'
-    dataset = TextSummaryDataset(texts_dir, summaries_dir, tokenizer)
 
-    train_loader = DataLoader(dataset, batch_size=4, shuffle=True)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = GPT2LMHeadModel.from_pretrained('gpt2').to(device)
+def train(train_loader,tokenizer,model):
+    print("Start")
+    if tokenizer.pad_token is None:
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
-    criterion = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)  
-    train_loader = DataLoader(dataset, batch_size=2, shuffle=True)
-    
+    loss= nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
     model.train()
-    for epoch in range(3):  # Number of epochs
+    for epoch in range(30):  
         for batch in train_loader:
             optimizer.zero_grad()
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            target_ids = batch['target_ids'].to(device)
+            input_ids = batch['input_ids'].long()
+            attention_mask = batch['attention_mask'].long()
+            target_ids = batch['target_ids'].long()
+            print(f'input_ids shape: {input_ids.shape}')
+            print(f'target_ids shape: {target_ids.shape}')
+            if input_ids.shape != target_ids.shape:
+                raise ValueError(f'Mismatch in shapes: input_ids {input_ids.shape}, target_ids {target_ids.shape}')
+            try:
+                outputs = model(input_ids, attention_mask=attention_mask, labels=target_ids)
+                loss = outputs.loss
+                loss.backward()
+                optimizer.step()
 
-            outputs = model(input_ids, attention_mask=attention_mask, labels=target_ids)
-            loss = outputs.loss
-            loss.backward()
-            optimizer.step()
-
-            print(f'Epoch: {epoch}, Loss: {loss.item()}')
+                print(f'Epoch: {epoch}, Loss: {loss.item()}')
+            except Exception as e:
+                print(f'Error during forward pass or backward pass: {e}')
     
     model.save_pretrained('./fine_tuned_model')
     tokenizer.save_pretrained('./fine_tuned_model')
