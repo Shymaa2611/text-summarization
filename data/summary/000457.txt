@@ -1,0 +1,1 @@
+logical, deductive, mediate, categorical Inference is a Syllogism directly conformable with the Dictum: as– All carnivores (M) are excitable (P); Cats (S) are carnivores (M):.’. Cats (S) are excitable (P). in this example P is predicated of M, a term distributed; in which term, M, S is given as included; so
