@@ -7,7 +7,7 @@ def train(train_loader, tokenizer, model):
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         model.resize_token_embeddings(len(tokenizer))  
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
-    loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
+    loss = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
     model.train()
 
     for epoch in range(1):  
@@ -29,5 +29,5 @@ def train(train_loader, tokenizer, model):
                 print(f'input_ids shape: {input_ids.shape}, target_ids shape: {target_ids.shape}')
                 print(f'input_ids max: {input_ids.max().item()}, target_ids max: {target_ids.max().item()}')
     
-            model.save_pretrained('./checkpoint')
-            tokenizer.save_pretrained('./checkpoint')
+        model.save_pretrained('./checkpoint')
+        tokenizer.save_pretrained('./checkpoint')
