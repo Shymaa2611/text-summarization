@@ -40,9 +40,6 @@ class TextSummaryDataset(Dataset):
         input_ids = inputs['input_ids'].squeeze(0)  
         attention_mask = inputs['attention_mask'].squeeze(0)  
         target_ids = targets['input_ids'].squeeze(0)  
-        print(f'input_ids shape: {input_ids.shape}')
-        print(f'target_ids shape: {target_ids.shape}')
-
         return {
             'input_ids': input_ids,
             'attention_mask': attention_mask,

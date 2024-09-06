@@ -10,7 +10,7 @@ def train(train_loader, tokenizer, model):
     loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
     model.train()
 
-    for epoch in range(100):  
+    for epoch in range(1):  
         for batch in train_loader:
             optimizer.zero_grad()
             input_ids = batch['input_ids'].long()
@@ -29,5 +29,5 @@ def train(train_loader, tokenizer, model):
                 print(f'input_ids shape: {input_ids.shape}, target_ids shape: {target_ids.shape}')
                 print(f'input_ids max: {input_ids.max().item()}, target_ids max: {target_ids.max().item()}')
     
-    model.save_pretrained('./checkpoint')
-    tokenizer.save_pretrained('./checkpoint')
+            model.save_pretrained('./checkpoint')
+            tokenizer.save_pretrained('./checkpoint')
