@@ -8,16 +8,16 @@ def train(train_loader,tokenizer,model):
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
     loss= nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
     model.train()
-    for epoch in range(30):  
+    for epoch in range(100):  
         for batch in train_loader:
             optimizer.zero_grad()
             input_ids = batch['input_ids'].long()
             attention_mask = batch['attention_mask'].long()
             target_ids = batch['target_ids'].long()
-            print(f'input_ids shape: {input_ids.shape}')
-            print(f'target_ids shape: {target_ids.shape}')
-            if input_ids.shape != target_ids.shape:
-                raise ValueError(f'Mismatch in shapes: input_ids {input_ids.shape}, target_ids {target_ids.shape}')
+            #print(f'input_ids shape: {input_ids.shape}')
+            #print(f'target_ids shape: {target_ids.shape}')
+            #if input_ids.shape != target_ids.shape:
+            #    raise ValueError(f'Mismatch in shapes: input_ids {input_ids.shape}, target_ids {target_ids.shape}')
             try:
                 outputs = model(input_ids, attention_mask=attention_mask, labels=target_ids)
                 loss = outputs.loss
@@ -28,8 +28,8 @@ def train(train_loader,tokenizer,model):
             except Exception as e:
                 print(f'Error during forward pass or backward pass: {e}')
     
-    model.save_pretrained('./fine_tuned_model')
-    tokenizer.save_pretrained('./fine_tuned_model')
+    model.save_pretrained('./checkpoint')
+    tokenizer.save_pretrained('./checkpoint')
 
 if __name__ == "__main__":
     train()
