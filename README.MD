@@ -39,7 +39,7 @@ Each text file in the `text/` folder has a corresponding summary file in the `su
   - run Python dataset.py file 
 
 ## Inference
- ``Python
+ ```python
     from transformers import GPT2LMHeadModel, GPT2Tokenizer
     import torch
 
