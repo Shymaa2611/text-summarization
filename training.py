@@ -22,12 +22,10 @@ def train(train_loader, tokenizer, model):
                 loss = outputs.loss
                 loss.backward()
                 optimizer.step()
-
-                print(f'Epoch: {epoch}, Loss: {loss.item()}')
             except Exception as e:
                 print(f'Error during forward pass or backward pass: {e}')
                 print(f'input_ids shape: {input_ids.shape}, target_ids shape: {target_ids.shape}')
                 print(f'input_ids max: {input_ids.max().item()}, target_ids max: {target_ids.max().item()}')
-    
+        print(f'Epoch: {epoch}, Loss: {loss.item()}')
         model.save_pretrained('./checkpoint')
         tokenizer.save_pretrained('./checkpoint')
