@@ -15,6 +15,5 @@ def load_model_in_4bit_Quantization(model_name):
     model = AutoModelForCausalLM.from_pretrained(
         model_name, 
         quantization_config=bnb_config,
-        load_in_4bit=True  
     )
     return tokenizer, model
