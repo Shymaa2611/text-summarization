@@ -1,7 +1,4 @@
-from torch.utils.data import Dataset
-from transformers import GPT2LMHeadModel
 from torch.utils.data import DataLoader
-from transformers import GPT2Tokenizer
 from dataset import TextSummaryDataset
 from training import train
 from model import load_model_in_4bit_Quantization
