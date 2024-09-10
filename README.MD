@@ -68,3 +68,4 @@ if __name__ == "__main__":
    
    ```
 ## Checkpoint
+- can download from : https://drive.google.com/file/d/1gCEP1I1PRjd5zDj-8rF-zyX6V9U68PAy/view?usp=drive_link
