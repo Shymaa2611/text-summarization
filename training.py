@@ -17,7 +17,7 @@ def train(train_loader, tokenizer, model, device):
     loss_fn = nn.CrossEntropyLoss(ignore_index=tokenizer.pad_token_id)
     model.train()
 
-    for epoch in range(1):  
+    for epoch in range(10):  
         epoch_loss = 0.0
         for batch in train_loader:
             optimizer.zero_grad()
