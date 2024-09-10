@@ -4,6 +4,7 @@ from torch.utils.data import DataLoader
 from transformers import GPT2Tokenizer
 from dataset import TextSummaryDataset
 from training import train
+import torch
 
 def main():
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
@@ -12,7 +13,8 @@ def main():
     dataset = TextSummaryDataset(texts_dir, summaries_dir, tokenizer)
     train_loader = DataLoader(dataset, batch_size=4, shuffle=True)
     model = GPT2LMHeadModel.from_pretrained('gpt2')
-    train(train_loader,tokenizer,model)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    train(train_loader,tokenizer,model,device)
 
 
 if __name__=="__main__":
